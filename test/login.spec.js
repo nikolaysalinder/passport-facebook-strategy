@@ -19,22 +19,19 @@ describe('passport-facebook tests', () => {
   let browser;
   let page;
 
-  before(done => {
-    server = app.listen(3000, () => {
-      puppeteer
-        .launch(opts)
-        .then(_browser => {
-          console.log('--------------done')
-          browser = _browser;
-          done();
-        });
+  before( async () => {
+    server = await app.listen(3000, () => {
+      console.log('Server is running!')
     });
+    browser = await puppeteer
+        .launch(opts);
+    console.log(browser)
   });
 
-  after(done => {
-    browser.close();
-    mongoose.disconnect();
-    server.close(done);
+  after(async () => {
+    await browser.close();
+    await mongoose.disconnect();
+    await server.close();
   });
 
   it('should login user using facebook', async () => {
