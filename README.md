@@ -36,7 +36,7 @@ module.exports = {
         scope: ['email']
       }
     },
-    vk: {
+    vkontakte: {
       appId: 'Vk appId from vk',
       appSecret: 'Vk appSecret from vk',
       passportOptions: {
