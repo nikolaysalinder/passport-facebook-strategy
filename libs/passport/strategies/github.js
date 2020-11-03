@@ -8,7 +8,7 @@ module.exports = new githubStrategy({
     callbackURL: `${config.get('server.site.host')}:${config.get('server.site.port')}/oauth/github`,
     scope: ['email'],
     profileFields: ['email'],
-  }, function(accessToken, refreshToken, params, profile, done) {
+  }, function(accessToken, refreshToken, profile, done) {
     console.log(profile)
     const email = profile._json.email;
 
