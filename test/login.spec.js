@@ -7,7 +7,7 @@ const config = require('config');
 // puppeteer options
 const opts = {
   headless: false,
-  slowMo: 300,
+  // slowMo: 300,
   timeout: 60000,
   args: [
     '--disable-notifications'
@@ -19,19 +19,21 @@ describe('passport-facebook tests', () => {
   let browser;
   let page;
 
-  before( async () => {
-    server = await app.listen(3000, () => {
-      console.log('Server is running!')
+  before(done => {
+    server = app.listen(3000, () => {
+      puppeteer
+        .launch(opts)
+        .then(_browser => {
+          browser = _browser;
+          done();
+        });
     });
-    browser = await puppeteer
-        .launch(opts);
-    console.log(browser)
   });
 
-  after(async () => {
-    await browser.close();
-    await mongoose.disconnect();
-    await server.close();
+  after(done => {
+    browser.close();
+    mongoose.disconnect();
+    server.close(done);
   });
 
   it('should login user using facebook', async () => {
@@ -50,13 +52,13 @@ describe('passport-facebook tests', () => {
     await page.waitForNavigation({waitUntil: 'networkidle2'});
 
     const confirmButton = await page.$('[name=__CONFIRM__]');
-    console.log(confirmButton);
+    console.log('=====>',confirmButton);
     if (confirmButton) {
       console.log('click');
       await confirmButton.click();
     }
 
-    await page.waitForNavigation({waitUntil: 'networkidle2'});
+     await page.waitForNavigation({ waitUntil: 'networkidle0', timeout: 50000});
 
     assert.strictEqual(page.url(), 'http://localhost:3000/');
 

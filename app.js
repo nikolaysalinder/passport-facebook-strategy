@@ -37,6 +37,14 @@ router.get('/oauth/vkontakte', passport.authenticate('vkontakte', {
   failureFlash: true
 }));
 
+router.get('/login/github', passport.authenticate('github', config.get('providers.github.passportOptions')));
+router.get('/oauth/github', passport.authenticate('github', {
+  successRedirect: '/',
+  failureRedirect: '/',
+  successFlash: true,
+  failureFlash: true
+}));
+
 app.use(router.routes());
 
 module.exports = app;
