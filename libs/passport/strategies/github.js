@@ -6,7 +6,6 @@ module.exports = new githubStrategy({
     clientID: config.get('providers.github.appId'),
     clientSecret: config.get('providers.github.appSecret'),
     callbackURL: `${config.get('server.site.host')}:${config.get('server.site.port')}/oauth/github`,
-    scope: ['email'],
     profileFields: ['email'],
   }, function(accessToken, refreshToken, profile, done) {
     console.log(profile)
