@@ -10,7 +10,7 @@ module.exports = new githubStrategy({
     profileFields: ['email'],
   }, function(accessToken, refreshToken, params, profile, done) {
     console.log(profile)
-    const email = params.email;
+    const email = profile._json.email;
 
     User.findOne({email}, (err, user) => {
       if (err) return done(err);
